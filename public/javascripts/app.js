@@ -94,12 +94,15 @@ require.register("application", function(exports, require, module) {
 // Application bootstrapper.
 Application = {
     initialize: function() {
-        
-        var HomeView = require('views/home_view')
-          , Router   = require('lib/router')
-        
-        this.homeView = new HomeView()
-        this.router   = new Router()
+		var HomeView = require('views/home_view');
+		var LeftNavView = require('views/left_nav_view');
+		var HeaderView = require('views/header_view');
+		var Router   = require('lib/router');
+
+        this.homeView = new HomeView();
+        this.leftNavView = new LeftNavView();
+        this.headerView = new HeaderView();
+        this.router = new Router();
         
         if (typeof Object.freeze === 'function') Object.freeze(this)
         
@@ -107,6 +110,7 @@ Application = {
 }
 
 module.exports = Application
+
 
 });
 
@@ -129,7 +133,9 @@ module.exports = Backbone.Router.extend({
     },
     
     home: function() {
-        $('body').html(application.homeView.render().el)
+        $('header').html(application.headerView.render().el)
+        $('#leftNav').html(application.leftNavView.render().el)
+        $('#mainContent').html(application.homeView.render().el)
     }
 })
 
@@ -156,6 +162,17 @@ module.exports = Backbone.Model.extend({
 
 });
 
+;require.register("views/header_view", function(exports, require, module) {
+var View     = require('./view')
+  , template = require('./templates/header')
+
+module.exports = View.extend({
+    id: 'header-view',
+    template: template
+})
+
+});
+
 ;require.register("views/home_view", function(exports, require, module) {
 var View     = require('./view')
   , template = require('./templates/home')
@@ -167,6 +184,37 @@ module.exports = View.extend({
 
 });
 
+;require.register("views/left_nav_view", function(exports, require, module) {
+var View     = require('./view')
+  , template = require('./templates/left_nav')
+
+module.exports = View.extend({
+    id: 'left-nav-view',
+    template: template
+})
+
+});
+
+;require.register("views/templates/header", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "<div class=\"navbar\">\n	<div class=\"navbar-inner\">\n		<a class=\"brand\" href=\"#\">MDev</a>\n		<ul class=\"nav\">\n			<li class=\"active\"><a href=\"#\">Home</a></li>\n			<li><a href=\"#\">Link</a></li>\n			<li><a href=\"#\">Link</a></li>\n		</ul>\n	</div>\n</div>";
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
 ;require.register("views/templates/home", function(exports, require, module) {
 var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
   this.compilerInfo = [4,'>= 1.0.0'];
@@ -174,7 +222,27 @@ helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
   
 
 
-  return "<header>\n	<div class=\"container\">\n		<h1>Banana Pancakes</h1>\n	</div>\n</header>\n\n<div class=\"container\">\n	\n	<p class=\"lead\">Congratulations, your Brunch project is set up and very yummy. Thanks for using Banana Pancakes!</p>\n	\n	<div class=\"row\">\n		\n		<div class=\"span4\">\n			<h2>Banana Pancakes I</h2>\n			<p><a href=\"http://allrecipes.com/recipe/banana-pancakes-i/\"><img src=\"http://i.imgur.com/YlAsp.jpg\" /></a></p>\n			<blockquote>\n				<p>Crowd pleasing banana pancakes made from scratch. A fun twist on ordinary pancakes.</p>\n				<small><a href=\"http://allrecipes.com/cook/1871017/profile.aspx\">ADDEAN1</a> from <cite title=\"allrecepies.com\">allrecepies.com</cite></small>\n			</blockquote>\n			<p><a class=\"btn\" href=\"http://allrecipes.com/recipe/banana-pancakes-i/\">View Recipe &raquo;</a></p>\n		</div>\n		\n		<div class=\"span4\">\n			<h2>Banana Brown Sugar Pancakes</h2>\n			<p><a href=\"http://allrecipes.com/recipe/banana-brown-sugar-pancakes\"><img src=\"http://i.imgur.com/Yaq7Y.jpg\" /></a></p>\n			<blockquote>\n				<p>This recipe I made because I wanted to use up some instant banana oatmeal I had. I don't use syrup on it because of the sweetness from the oatmeal and brown sugar.</p>\n				<small><a href=\"http://allrecipes.com/cook/10041806/profile.aspx\">Nscoober2</a> from <cite title=\"allrecepies.com\">allrecepies.com</cite></small>\n			</blockquote>\n			<p><a class=\"btn\" href=\"http://allrecipes.com/recipe/banana-brown-sugar-pancakes\">View Recipe &raquo;</a></p>\n		</div>\n		\n		<div class=\"span4\">\n			<h2>Banana Pancakes II</h2>\n			<p><a href=\"http://allrecipes.com/recipe/banana-pancakes-ii/\"><img src=\"http://i.imgur.com/dEh09.jpg\" /></a></p>\n			<blockquote>\n				<p>These yummy pancakes are a snap to make.</p>\n				<small><a href=\"http://allrecipes.com/cook/18911/profile.aspx\">sal</a> from <cite title=\"allrecepies.com\">allrecepies.com</cite></small>\n			</blockquote>\n			<p><a class=\"btn\" href=\"http://allrecipes.com/recipe/banana-pancakes-ii/\">View Recipe &raquo;</a></p>\n		</div>\n		\n	</div>\n	\n</div>\n";
+  return "<header>\n	<div class=\"container\">\n		<h1>Home View</h1>\n	</div>\n</header>\n\n<div class=\"container\">\n	\n	<p>Content ya!</p>\n	\n</div>\n";
+  });
+if (typeof define === 'function' && define.amd) {
+  define([], function() {
+    return __templateData;
+  });
+} else if (typeof module === 'object' && module && module.exports) {
+  module.exports = __templateData;
+} else {
+  __templateData;
+}
+});
+
+;require.register("views/templates/left_nav", function(exports, require, module) {
+var __templateData = Handlebars.template(function (Handlebars,depth0,helpers,partials,data) {
+  this.compilerInfo = [4,'>= 1.0.0'];
+helpers = this.merge(helpers, Handlebars.helpers); data = data || {};
+  
+
+
+  return "<div>\n	test\n</div>";
   });
 if (typeof define === 'function' && define.amd) {
   define([], function() {

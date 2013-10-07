@@ -6,6 +6,8 @@ module.exports = Backbone.Router.extend({
     },
     
     home: function() {
-        $('body').html(application.homeView.render().el)
+        $('header').html(application.headerView.render().el)
+        $('#leftNav').html(application.leftNavView.render().el)
+        $('#mainContent').html(application.homeView.render().el)
     }
 })
